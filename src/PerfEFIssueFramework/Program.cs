@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace PerfEFIssueFramework
 {
 
-    internal class Program
-    {
-        private static async Task Main(string[] args)
-        {
-            Console.WriteLine("Ready to consume a lot of memory with EF.");
+	internal class Program
+	{
+		private static async Task Main(string[] args)
+		{
+			Console.WriteLine("Ready to consume a lot of memory with EF.");
 
 			using (var db = new ItemContext())
 			{
@@ -30,30 +30,30 @@ namespace PerfEFIssueFramework
 			}
 			// Find
 			for (int i = 1; i < 5; i++)
-            {
-                // Find sync - No performance issues
-                using (var db = new ItemContext())
-                {
-                    var stopwatch = Stopwatch.StartNew();
-                    Console.WriteLine("Find sync method doesn't have performance and memory issue");
+			{
+				// Find sync - No performance issues
+				using (var db = new ItemContext())
+				{
+					var stopwatch = Stopwatch.StartNew();
+					Console.WriteLine("Find sync method doesn't have performance and memory issue");
 					Item item = db.Items.Find(i);
-                    Console.WriteLine($"Record with id '{item.Id}' was fetched in {stopwatch.ElapsedMilliseconds}ms. Press any key to read again...");
-                }
+					Console.WriteLine($"Record with id '{item.Id}' was fetched in {stopwatch.ElapsedMilliseconds}ms. Press any key to read again...");
+				}
 
-                // Find async - performance issues
-                using (var db = new ItemContext())
-                {
-                    var stopwatch = Stopwatch.StartNew();
-                    Console.WriteLine("Reproduce FindAsync performance and memory issue:");
+				// Find async - performance issues
+				using (var db = new ItemContext())
+				{
+					var stopwatch = Stopwatch.StartNew();
+					Console.WriteLine("Reproduce FindAsync performance and memory issue:");
 					Item item = await db.Items.AsNoTracking().FirstAsync();
-                    Console.WriteLine($"Record with id '{item.Id}' was fetched in {stopwatch.ElapsedMilliseconds}ms. Press any key to read again...");
-                }
-            }
+					Console.WriteLine($"Record with id '{item.Id}' was fetched in {stopwatch.ElapsedMilliseconds}ms. Press any key to read again...");
+				}
+			}
 
-            using (var db = new ItemContext())
-            {
-                db.Database.Delete();
-            }
-        }
-    }
+			using (var db = new ItemContext())
+			{
+				db.Database.Delete();
+			}
+		}
+	}
 }
