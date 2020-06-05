@@ -2,27 +2,13 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using PerformanceIssueEFCoreAsync.Context;
 
 namespace PerformanceIssueEFCoreAsync
 {
-  public class Item
+  internal class Program
   {
-    public int Id { get; set; }
-    public byte[] Data { get; set; }
-  }
-
-  public class ItemContext : DbContext
-  {
-    public DbSet<Item> Items { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(
-          @"Data Source=localhost;Initial Catalog=ItemDb;Integrated Security=true;");
-  }
-
-  class Program
-  {
-    async static Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
       Console.WriteLine("Ready to consume a lot of memory with EF.");
 
